@@ -22,6 +22,8 @@
 		849F948618AACFAC00028F52 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849F946518AACFAB00028F52 /* UIKit.framework */; };
 		849F948E18AACFAC00028F52 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 849F948C18AACFAC00028F52 /* InfoPlist.strings */; };
 		849F949018AACFAC00028F52 /* EchooTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 849F948F18AACFAC00028F52 /* EchooTests.m */; };
+		849F949A18AAD5FB00028F52 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849F949918AAD5FB00028F52 /* Security.framework */; };
+		849F94A618AADB3A00028F52 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 849F94A518AADB3A00028F52 /* KeychainItemWrapper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,9 @@
 		849F948B18AACFAC00028F52 /* EchooTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EchooTests-Info.plist"; sourceTree = "<group>"; };
 		849F948D18AACFAC00028F52 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		849F948F18AACFAC00028F52 /* EchooTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EchooTests.m; sourceTree = "<group>"; };
+		849F949918AAD5FB00028F52 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		849F94A418AADB3A00028F52 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		849F94A518AADB3A00028F52 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849F949A18AAD5FB00028F52 /* Security.framework in Frameworks */,
 				849F946418AACFAB00028F52 /* CoreGraphics.framework in Frameworks */,
 				849F946618AACFAB00028F52 /* UIKit.framework in Frameworks */,
 				849F946218AACFAB00028F52 /* Foundation.framework in Frameworks */,
@@ -103,6 +109,7 @@
 		849F946018AACFAB00028F52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				849F949918AAD5FB00028F52 /* Security.framework */,
 				849F946118AACFAB00028F52 /* Foundation.framework */,
 				849F946318AACFAB00028F52 /* CoreGraphics.framework */,
 				849F946518AACFAB00028F52 /* UIKit.framework */,
@@ -122,6 +129,8 @@
 				849F947A18AACFAC00028F52 /* ViewController.m */,
 				849F947C18AACFAC00028F52 /* Images.xcassets */,
 				849F946818AACFAB00028F52 /* Supporting Files */,
+				849F94A418AADB3A00028F52 /* KeychainItemWrapper.h */,
+				849F94A518AADB3A00028F52 /* KeychainItemWrapper.m */,
 			);
 			path = Echoo;
 			sourceTree = "<group>";
@@ -253,6 +262,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				849F94A618AADB3A00028F52 /* KeychainItemWrapper.m in Sources */,
 				849F947B18AACFAC00028F52 /* ViewController.m in Sources */,
 				849F947218AACFAC00028F52 /* AppDelegate.m in Sources */,
 				849F946E18AACFAC00028F52 /* main.m in Sources */,
