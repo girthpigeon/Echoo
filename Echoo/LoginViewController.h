@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "KeychainItemWrapper.h"
 
-@interface ViewController : UIViewController
+@interface LoginViewController : UIViewController
 {
     NSString *userid;
 }

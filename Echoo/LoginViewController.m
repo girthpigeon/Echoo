@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 Echoo. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "LoginViewController.h"
+#import "MainViewController.h"
 
-@interface ViewController ()
+@interface LoginViewController ()
 
 @end
 
-@implementation ViewController
+@implementation LoginViewController
 
 NSString *name = @"user1";
 NSString *password = @"password1";
@@ -21,10 +22,11 @@ NSString *loginname = @"kwipp_admin";
 NSString *loginpassword = @"328x4_5y934";
 NSString *db = @"kwipp_echoo";
 KeychainItemWrapper *keychain;
+//ViewController *loginViewController = [ViewController animated:YES completion: nil];
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //LoginViewController *loginViewController = self;
     //create a familiar keychain
     keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"UserAuthToken" accessGroup:nil];
     
@@ -34,13 +36,19 @@ KeychainItemWrapper *keychain;
     
     //they have previously made a userid
         if([tempId length] > 0){
-        userid = tempId;
-        //NSLog(@"%@, %@", [keychain objectForKey:(__bridge id)(kSecAttrAccount)], [keychain objectForKey:(__bridge id)(kSecValueData)]);
-        NSLog(@"returning user. id: %@", userid);
+            userid = tempId;
+            //NSLog(@"%@, %@", [keychain objectForKey:(__bridge id)(kSecAttrAccount)], [keychain objectForKey:(__bridge id)(kSecValueData)]);
+            NSLog(@"returning user. id: %@", userid);
             
             //redirect to main screen
-            
-   //first time logging in
+            //[self performSegueWithIdentifier:@"loginToMain"];
+            [self performSegueWithIdentifier:@"ShowMainView" sender:self];
+            //NSString *storyboardName = @"MainStoryboard";
+            //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+            //UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"MainViewController"];
+            //[self ViewController:vc animated:YES completion:nil];
+             
+    //first time logging in
     } else {
         userid = [self createNewUser];
         [keychain setObject:userid forKey:(__bridge id)(kSecAttrAccount)];
@@ -87,6 +95,16 @@ KeychainItemWrapper *keychain;
      //}];
     NSLog(@"returnString: %@", userid);
     return userid;
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSLog(@"Preparing for Segue");
+    if ([segue.identifier isEqualToString:@"ShowMainView"]) {
+        //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        MainViewController *destViewController = segue.destinationViewController;
+        destViewController.userid = userid;
+        NSLog(@"Segueing to MainViewController");
+    }
 }
 
 - (void)didReceiveMemoryWarning
