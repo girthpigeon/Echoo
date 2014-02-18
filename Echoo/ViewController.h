@@ -11,11 +11,9 @@
 
 @interface ViewController : UIViewController
 {
-    NSString *loginname;
-    NSString *loginpassword;
-    NSString *dbUrl;
-    NSString *db;
+    NSString *userid;
 }
+- (NSString*) createNewUser;
 @property (strong, nonatomic) IBOutlet UITextField *username_textarea;
 @property (strong, nonatomic) IBOutlet UITextField *password_textarea;
 @property (strong, nonatomic) IBOutlet UITextField *password2_textarea;

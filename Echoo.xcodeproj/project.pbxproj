@@ -484,6 +484,7 @@
 				849F949518AACFAC00028F52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		849F949618AACFAC00028F52 /* Build configuration list for PBXNativeTarget "EchooTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +493,7 @@
 				849F949818AACFAC00028F52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
