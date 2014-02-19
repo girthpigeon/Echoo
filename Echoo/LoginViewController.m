@@ -30,7 +30,7 @@ KeychainItemWrapper *keychain;
     //create a familiar keychain
     keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"UserAuthToken" accessGroup:nil];
     
-    //[keychain resetKeychainItem];
+    [keychain resetKeychainItem];
     NSString *tempId = [keychain objectForKey:(__bridge id)(kSecAttrAccount)];
     NSLog(@"length: %lu", (unsigned long)tempId);
     

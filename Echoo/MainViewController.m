@@ -16,18 +16,26 @@
 
 @implementation MainViewController
 
+@synthesize userid;
+
 - (IBAction)RecordButtonPushed:(id)sender {
     NSError *error;
+    
+    NSDate * now = [NSDate date];
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"HH:mm:ss"];
+    NSString *newDateString = [outputFormatter stringFromDate:now];
+    NSLog(@"current date: %@", newDateString);
+    
     audioSession = [AVAudioSession sharedInstance];
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: &error];
     [audioSession setActive:YES error: &error];
     
-    audioFileName = @"tempAudio";
+    audioFileName = [NSString stringWithFormat: @"%@-%@", userid, newDateString];
     
     NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docsDir = [dirPaths objectAtIndex:0];
-    url = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:[NSString stringWithFormat: @"tempAudio.caf"]]];
-    //url = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:[NSString stringWithFormat: @"%@.%@",audioFileName, @"caf"]]];
+    url = [NSURL fileURLWithPath:[docsDir stringByAppendingPathComponent:[NSString stringWithFormat: @"%@.caf", audioFileName]]];
     
     NSMutableDictionary* settings = [[NSMutableDictionary alloc] init];
     [settings setValue :[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
@@ -49,7 +57,12 @@ stringByAppendingComponent: [NSString stringWithFormat: @"%@.%@", audioFileName,
 }
 
 - (IBAction)RecordButtonReleased:(id)sender {
-    
+    NSError *error;
+    if(recorder.recording){
+        [recorder stop];
+        [audioSession setActive:NO error:&error];
+        NSLog(@"Stopped Recording Audio");
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
