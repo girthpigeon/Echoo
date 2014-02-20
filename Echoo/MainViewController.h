@@ -28,11 +28,15 @@
     CLPlacemark *placemark;
     CLLocation *currentLocation;
     
+    NSString *address;
+    NSString *longitude;
+    NSString *latitude;
+    
 }
 
 @property (strong, nonatomic) NSString *userid;
-@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
-@property (strong, nonatomic) IBOutlet UILabel *longitudeLabel;
-@property (strong, nonatomic) IBOutlet UILabel *latitudeLabel;
+//@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
+//@property (strong, nonatomic) IBOutlet UILabel *longitudeLabel;
+//@property (strong, nonatomic) IBOutlet UILabel *latitudeLabel;
 
 @end
