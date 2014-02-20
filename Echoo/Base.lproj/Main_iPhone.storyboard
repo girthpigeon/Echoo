@@ -88,8 +88,18 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="RecordButtonPushed:" destination="0SM-yX-6OC" eventType="touchUpInside" id="LAH-tS-yWm"/>
+                                    <action selector="RecordButtonPushed:" destination="0SM-yX-6OC" eventType="touchDown" id="PLZ-Xb-O9h"/>
                                     <action selector="RecordButtonReleased:" destination="0SM-yX-6OC" eventType="touchUpInside" id="TAR-wU-9Aw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z66-s1-HXi">
+                                <rect key="frame" x="136" y="300" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Play">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playAudio:" destination="0SM-yX-6OC" eventType="touchUpInside" id="eza-gU-Thx"/>
                                 </connections>
                             </button>
                         </subviews>

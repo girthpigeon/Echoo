@@ -16,10 +16,23 @@
 {
     AVAudioSession *audioSession;
     AVAudioRecorder *recorder;
+    AVAudioPlayer *player;
+    
     NSString *docsDir;
     NSString *audioFileName;
     NSURL *url;
+    NSURL *outputFileURL;
+    
+    CLLocationManager *locationManager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    CLLocation *currentLocation;
+    
 }
 
 @property (strong, nonatomic) NSString *userid;
+@property (strong, nonatomic) IBOutlet UILabel *addressLabel;
+@property (strong, nonatomic) IBOutlet UILabel *longitudeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *latitudeLabel;
+
 @end
