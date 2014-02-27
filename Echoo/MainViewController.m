@@ -219,6 +219,8 @@
     
     NSLog(@"AudioUpload String= %@",returnString);
     
+        NSMutableData *body2 = [NSMutableData data];
+    
     [_params setObject:latitude forKey:@"latitude"];
     [_params setObject:longitude forKey:@"longitude"];
     [_params setObject:country forKey:@"country"];
@@ -231,11 +233,11 @@
     
     // add params (all params are strings)
     for (NSString *param in _params) {
-        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
-        //NSLog(@"param: %@", [_params objectForKey:param]);
-        [body appendData:[[NSString stringWithFormat:@"%@\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body2 appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body2 appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body2 appendData:[[NSString stringWithFormat:@"%@\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
     }
+    //[body2 appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSString *urlString2 = @"http://kwipp.com/echoo/php/uploadEchoo.php";
     
@@ -243,9 +245,7 @@
     [request2 setURL:[NSURL URLWithString:urlString2]];
     [request2 setHTTPMethod:@"POST"];
     
-    [request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    NSMutableData *body2 = [NSMutableData data];
+    [request2 addValue:contentType forHTTPHeaderField: @"Content-Type"];
 
     [request2 setHTTPBody:body2];
     
