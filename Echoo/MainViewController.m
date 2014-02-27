@@ -68,7 +68,8 @@
         [recorder stop];
         [audioSession setActive:NO error:&error];
         NSLog(@"Stopped Recording Audio");
-            [self getCurrentLocation:self];
+        
+        [self getCurrentLocation:self];
             //[NSThread sleepForTimeInterval:5.0];
         longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
@@ -88,6 +89,9 @@
         } ];
         
         NSLog(@"longitude: %@",longitude);
+        if(country != nil){
+            
+        }
             [self upload:self];
     }
     
@@ -321,6 +325,26 @@
 	// Do any additional setup after loading the view.
     locationManager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
+    
+    [self getCurrentLocation:self];
+    //[NSThread sleepForTimeInterval:5.0];
+    longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+    latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+    
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        //NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            country = placemark.country;
+            state = placemark.administrativeArea;
+            zip = placemark.postalCode;
+            city = placemark.locality;
+            address = [NSString stringWithFormat:@"%@, %@", placemark.subThoroughfare, placemark.thoroughfare];
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+
 
 }
 
