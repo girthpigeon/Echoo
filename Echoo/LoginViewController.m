@@ -32,13 +32,13 @@ KeychainItemWrapper *keychain;
     
     //[keychain resetKeychainItem];
     NSString *tempId = [keychain objectForKey:(__bridge id)(kSecAttrAccount)];
-    NSLog(@"length: %lu", (unsigned long)tempId);
+    //NSLog(@"length: %lu", (unsigned long)tempId);
     
     //they have previously made a userid
         if([tempId length] > 0){
             userid = tempId;
             //NSLog(@"%@, %@", [keychain objectForKey:(__bridge id)(kSecAttrAccount)], [keychain objectForKey:(__bridge id)(kSecValueData)]);
-            NSLog(@"returning user. id: %@", userid);
+            //NSLog(@"returning user. id: %@", userid);
             
             //redirect to main screen
             //[self performSegueWithIdentifier:@"loginToMain"];
@@ -53,7 +53,8 @@ KeychainItemWrapper *keychain;
         userid = [self createNewUser];
         [keychain setObject:userid forKey:(__bridge id)(kSecAttrAccount)];
         [keychain setObject:password forKey:(__bridge id)(kSecValueData)];
-        NSLog(@"New user's id: %@", [keychain objectForKey:(__bridge id)(kSecAttrAccount)]);
+        //NSLog(@"New user's id: %@", [keychain objectForKey:(__bridge id)(kSecAttrAccount)]);
+        [self performSegueWithIdentifier:@"ShowMainView" sender:self];
     }
     
     //change to main screen
@@ -73,7 +74,7 @@ KeychainItemWrapper *keychain;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url2];
     request.HTTPMethod = @"POST";
     NSString *post = [NSString stringWithFormat:@"&loginname=%@&loginpassword=%@&dbUrl=%@&db=%@&name=%@&password=%@", loginname, loginpassword, dbUrl, db, name, password];
-    NSLog(@"post: %@", post);
+    //NSLog(@"post: %@", post);
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     //NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
     request.HTTPBody = postData;

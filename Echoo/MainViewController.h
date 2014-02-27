@@ -28,10 +28,16 @@
     CLPlacemark *placemark;
     CLLocation *currentLocation;
     
+    NSString *date;
     NSString *address;
+    NSString *country;
+    NSString *state;
+    NSString *city;
+    NSString *zip;
     NSString *longitude;
     NSString *latitude;
     
+    bool locationFound;
 }
 
 @property (strong, nonatomic) NSString *userid;
