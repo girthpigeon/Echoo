@@ -68,9 +68,29 @@
         [recorder stop];
         [audioSession setActive:NO error:&error];
         NSLog(@"Stopped Recording Audio");
+            [self getCurrentLocation:self];
+            //[NSThread sleepForTimeInterval:5.0];
+        longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+        
+        [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+            //NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+            if (error == nil && [placemarks count] > 0) {
+                placemark = [placemarks lastObject];
+                country = placemark.country;
+                state = placemark.administrativeArea;
+                zip = placemark.postalCode;
+                city = placemark.locality;
+                address = [NSString stringWithFormat:@"%@, %@", placemark.subThoroughfare, placemark.thoroughfare];
+            } else {
+                NSLog(@"%@", error.debugDescription);
+            }
+        } ];
+        
+        NSLog(@"longitude: %@",longitude);
+            [self upload:self];
     }
     
-    [self getCurrentLocation:self];
 }
 - (IBAction)playAudio:(id)sender {
     if(!recorder.recording){
@@ -94,19 +114,17 @@
     locationFound = false;
     
     //initialize variables
-    latitude = @"";
-    longitude = @"";
-    country = @"";
-    state = @"";
-    zip = @"";
-    city = @"";
-    address = @"";
+    //latitude = @"";
+    //longitude = @"";
+    //country = @"";
+    //state = @"";
+    //zip = @"";
+    //city = @"";
+    //address = @"";
     
     
     
     [locationManager startUpdatingLocation];
-    [NSThread sleepForTimeInterval:5.0];
-    [self upload:self];
 }
 
 #pragma mark CLLocationManagerDelegate
@@ -142,11 +160,6 @@
             zip = placemark.postalCode;
             city = placemark.locality;
             address = [NSString stringWithFormat:@"%@, %@", placemark.subThoroughfare, placemark.thoroughfare];
-            /*address = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@",
-                                  placemark.subThoroughfare, placemark.thoroughfare,
-                                  placemark.postalCode, placemark.locality,
-                                  placemark.administrativeArea,
-                                  placemark.country];*/
         } else {
             NSLog(@"%@", error.debugDescription);
         }
