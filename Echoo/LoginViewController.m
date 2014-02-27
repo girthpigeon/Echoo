@@ -69,7 +69,6 @@ KeychainItemWrapper *keychain;
 }
 
 - (NSString*)createNewUser {
-   // __block NSString *returnString;
     NSURL *url2 = [NSURL URLWithString:@"http://kwipp.com/echoo/php/register.php"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL: url2];
     request.HTTPMethod = @"POST";

@@ -214,11 +214,20 @@
     
     [request setHTTPBody:body];
     
-    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+    [NSURLConnection sendAsynchronousRequest: request
+                                       queue: [NSOperationQueue mainQueue]
+                           completionHandler:
+     ^(NSURLResponse *r, NSData *data, NSError *error) {
+         NSString *returnString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+         
+         NSLog(@"AudioUploadString: %@", returnString);
+     }];
     
-    NSLog(@"AudioUpload String= %@",returnString);
+    //NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    //NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
     
+    //NSLog(@"AudioUpload String= %@",returnString);
+  /*
         NSMutableData *body2 = [NSMutableData data];
     
     [_params setObject:latitude forKey:@"latitude"];
@@ -253,26 +262,33 @@
     NSString *returnString2 = [[NSString alloc] initWithData:returnData2 encoding:NSUTF8StringEncoding];
     
     NSLog(@"EchooUpload String2= %@",returnString2);
-    
+*/
     
     //NSString *latitude = [[NSString alloc] initWithFormat:@"%g", currentLocation.coordinate.latitude];
     //NSString *longitude = [[NSString alloc] initWithFormat:@"%g", currentLocation.coordinate.longitude];
-/*
+
     NSURL *url2 = [NSURL URLWithString:@"http://kwipp.com/echoo/php/uploadEchoo.php"];
     NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL: url2];
     request2.HTTPMethod = @"POST";
-    NSString *post = [NSString stringWithFormat:@"&latitude=%@&longitude=%@", latitude, longitude];
+    NSString *post = [NSString stringWithFormat:@"&latitude=%@&longitude=%@&country=%@&state=%@&city=%@&zip=%@&address=%@&audioFileName=%@&date=%@&loginname=%@&loginpassword=%@&db=%@&dbUrl=%@&userid=%@", latitude, longitude, country, state, city, zip, address, audioFileName, date, loginname, loginpassword, db, dbUrl, userid];
     
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     //NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
     request2.HTTPBody = postData;
+/*
+    NSData *returnData2 = [NSURLConnection sendSynchronousRequest: request2 returningResponse: nil error: nil];
+    // Log Response
+    NSString *response2 = [[NSString alloc] initWithBytes:[returnData2 bytes] length:[returnData2 length] encoding:NSUTF8StringEncoding];
+    NSLog(@"new response: %@",response2);
+*/
     [NSURLConnection sendAsynchronousRequest: request2
                                        queue: [NSOperationQueue mainQueue]
                            completionHandler:
      ^(NSURLResponse *r, NSData *data, NSError *error) {
-         NSLog(@"response: %@", r);
+         NSString *returnString2 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+         NSLog(@"EchooUpload String: %@", returnString2);
      }];
- */
 }
 
 
