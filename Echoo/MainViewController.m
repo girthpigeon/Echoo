@@ -18,6 +18,50 @@
 
 @synthesize userid;
 
+- (IBAction)ListenButtonPushed:(id)sender {
+    //check current gps coords
+    [self getCurrentLocation:self];
+    longitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+    latitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+    
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        //NSLog(@"Found placemarks: %@, error: %@", placemarks, error);
+        if (error == nil && [placemarks count] > 0) {
+            placemark = [placemarks lastObject];
+            country = placemark.country;
+            state = placemark.administrativeArea;
+            zip = placemark.postalCode;
+            city = placemark.locality;
+            address = [NSString stringWithFormat:@"%@, %@", placemark.subThoroughfare, placemark.thoroughfare];
+        } else {
+            NSLog(@"%@", error.debugDescription);
+        }
+    } ];
+
+    
+    //fetch the user's nearness settings (for starters just make this constant
+    [self findEchoos:self];
+    
+    //if within range, return the audio
+    
+    //if not within range, return the next closest 3 within a max radius
+}
+
+-(void)findEchoos:(id)sender {
+    float distance = 1.6000000; //1 mile
+    float radius = distance / 6371; //earths diameter in km (Constant)
+    NSLog(@"radius: %.10f", radius);
+    float latMIN = [latitude floatValue] - radius;
+    float latMAX = [latitude floatValue] + radius;
+    float latT = asinf(sinf([latitude floatValue])/cosf(radius));
+    float lonChange = asinf(sin(radius)/cosf([latitude floatValue]));
+    float lonMAX = [longitude floatValue] + lonChange;
+    float lonMIN = [longitude floatValue] - lonChange;
+    
+    
+}
+
+
 - (IBAction)RecordButtonPushed:(id)sender {
     
     NSError *error;
@@ -239,50 +283,7 @@
          
          NSLog(@"AudioUploadString: %@", returnString);
      }];
-    
-    //NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    //NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    
-    //NSLog(@"AudioUpload String= %@",returnString);
-  /*
-        NSMutableData *body2 = [NSMutableData data];
-    
-    [_params setObject:latitude forKey:@"latitude"];
-    [_params setObject:longitude forKey:@"longitude"];
-    [_params setObject:country forKey:@"country"];
-    [_params setObject:state forKey:@"state"];
-    [_params setObject:zip forKey:@"zip"];
-    [_params setObject:city forKey:@"city"];
-    [_params setObject:address forKey:@"address"];
-    [_params setObject:audioFileName forKey:@"audioFileName"];
-    [_params setObject:date forKey:@"date"];
-    
-    // add params (all params are strings)
-    for (NSString *param in _params) {
-        [body2 appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body2 appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body2 appendData:[[NSString stringWithFormat:@"%@\r\n", [_params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    //[body2 appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSString *urlString2 = @"http://kwipp.com/echoo/php/uploadEchoo.php";
-    
-    NSMutableURLRequest *request2 = [[NSMutableURLRequest alloc] init];
-    [request2 setURL:[NSURL URLWithString:urlString2]];
-    [request2 setHTTPMethod:@"POST"];
-    
-    [request2 addValue:contentType forHTTPHeaderField: @"Content-Type"];
 
-    [request2 setHTTPBody:body2];
-    
-    NSData *returnData2 = [NSURLConnection sendSynchronousRequest:request2 returningResponse:nil error:nil];
-    NSString *returnString2 = [[NSString alloc] initWithData:returnData2 encoding:NSUTF8StringEncoding];
-    
-    NSLog(@"EchooUpload String2= %@",returnString2);
-*/
-    
-    //NSString *latitude = [[NSString alloc] initWithFormat:@"%g", currentLocation.coordinate.latitude];
-    //NSString *longitude = [[NSString alloc] initWithFormat:@"%g", currentLocation.coordinate.longitude];
 
     NSURL *url2 = [NSURL URLWithString:@"http://kwipp.com/echoo/php/uploadEchoo.php"];
     NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL: url2];
@@ -292,12 +293,7 @@
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
     //NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
     request2.HTTPBody = postData;
-/*
-    NSData *returnData2 = [NSURLConnection sendSynchronousRequest: request2 returningResponse: nil error: nil];
-    // Log Response
-    NSString *response2 = [[NSString alloc] initWithBytes:[returnData2 bytes] length:[returnData2 length] encoding:NSUTF8StringEncoding];
-    NSLog(@"new response: %@",response2);
-*/
+
     [NSURLConnection sendAsynchronousRequest: request2
                                        queue: [NSOperationQueue mainQueue]
                            completionHandler:
