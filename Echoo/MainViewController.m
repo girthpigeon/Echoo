@@ -48,17 +48,58 @@
 }
 
 -(void)findEchoos:(id)sender {
-    float distance = 1.6000000; //1 mile
+    //float distance = 1.6000000; //1 mile
+    float distance = 1609.344; //1000 miles for testing
     float radius = distance / 6371; //earths diameter in km (Constant)
     NSLog(@"radius: %.10f", radius);
-    float latMIN = [latitude floatValue] - radius;
-    float latMAX = [latitude floatValue] + radius;
-    float latT = asinf(sinf([latitude floatValue])/cosf(radius));
-    float lonChange = asinf(sin(radius)/cosf([latitude floatValue]));
-    float lonMAX = [longitude floatValue] + lonChange;
-    float lonMIN = [longitude floatValue] - lonChange;
+    float latF = [latitude floatValue];
+    float lonF = [longitude floatValue];
+    float latMIN = latF - radius;
+    float latMAX = latF + radius;
+    //float latT = asinf(sinf(latF)/cosf(radius));
+    float lonChange = asinf(sin(radius)/cosf(latF));
+    float lonMAX = lonF + lonChange;
+    float lonMIN = lonF - lonChange;
     
+    NSString *dbUrl = @"mysql2.snhosting.net";
+    NSString *loginname = @"kwipp_admin";
+    NSString *loginpassword = @"328x4_5y934";
+    NSString *db = @"kwipp_echoo";
     
+    NSURL *url2 = [NSURL URLWithString:@"http://kwipp.com/echoo/php/findEchoos.php"];
+    NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL: url2];
+    request2.HTTPMethod = @"POST";
+    NSString *post = [NSString stringWithFormat:@"&latitude=%f&longitude=%f&latMIN=%f&latMAX=%f&lonMAX=%f&lonMIN=%f&date=%@&loginname=%@&loginpassword=%@&db=%@&dbUrl=%@&userid=%@", latF, lonF, latMIN, latMAX, lonMAX, lonMIN, date, loginname, loginpassword, db, dbUrl, userid];
+    
+    //NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    //NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
+    //request2.HTTPBody = postData;
+    
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    request2.HTTPBody = postData;
+    NSData *returnData = [NSURLConnection sendSynchronousRequest: request2 returningResponse: nil error: nil];
+    // Log Response
+    NSError *error;
+    NSString *response = [[NSString alloc] initWithBytes:[returnData bytes] length:[returnData length] encoding:NSUTF8StringEncoding];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:returnData options:kNilOptions error:&error];
+    NSArray *responseArray = [json objectForKey:@"echoos"];
+    
+    NSLog(@"EchooFind Return: %@", responseArray);
+    NSLog(@"new response: %@",response);
+
+   /*
+    [NSURLConnection sendAsynchronousRequest: request2
+                                       queue: [NSOperationQueue mainQueue]
+                           completionHandler:
+     ^(NSURLResponse *r, NSData *data, NSError *error) {
+         NSString *returnString2 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+         
+         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+         NSArray *responseArray = [json objectForKey:@"ns"];
+         
+         NSLog(@"EchooFind Return: %@", responseArray);
+     }];*/
+
 }
 
 

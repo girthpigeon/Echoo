@@ -75,7 +75,6 @@ KeychainItemWrapper *keychain;
     NSString *post = [NSString stringWithFormat:@"&loginname=%@&loginpassword=%@&dbUrl=%@&db=%@&name=%@&password=%@", loginname, loginpassword, dbUrl, db, name, password];
     //NSLog(@"post: %@", post);
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    //NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]];
     request.HTTPBody = postData;
     
     NSData *returnData = [NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil];
