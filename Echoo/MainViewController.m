@@ -47,7 +47,7 @@
 
 -(void)findEchoos:(id)sender {
     //float distance = 1.6000000; //1 mile
-    float distance = 5.0000000;
+    float distance = 5.0000000; //a little under 3 miles
     //float distance = 1609.344; //1000 miles for testing
     float radius = distance / 6371; //earths diameter in km (Constant)
     NSLog(@"radius: %.10f", radius);
@@ -75,7 +75,7 @@
     NSData *returnData = [NSURLConnection sendSynchronousRequest: request2 returningResponse: nil error: nil];
     // Log Response
     NSError *error;
-    NSString *response = [[NSString alloc] initWithBytes:[returnData bytes] length:[returnData length] encoding:NSUTF8StringEncoding];
+    //NSString *response = [[NSString alloc] initWithBytes:[returnData bytes] length:[returnData length] encoding:NSUTF8StringEncoding];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:returnData options:kNilOptions error:&error];
     NSArray *responseArray = [json objectForKey:@"echoos"];
     
@@ -83,13 +83,21 @@
     
     //we now have an array of all the echoos found within the radius. They are sorted by date.
     //we should go through this array and play the one that we are closest to.
+    Echoo *closestEchoo;
+    float smallestDistance = MAXFLOAT;
+    float currentDistance = MAXFLOAT;
     NSMutableArray *echooArray = [[NSMutableArray alloc] init];
     for(NSDictionary * dic in responseArray){
         
         Echoo* tempEchoo = [[Echoo alloc] initWithParams: dic];
+        currentDistance = (fabsf(latF - tempEchoo.latitude) + fabsf(lonF - tempEchoo.longitude))/2;
+        if(currentDistance < smallestDistance){
+            smallestDistance = currentDistance;
+            closestEchoo = tempEchoo;
+        }
         [echooArray addObject:tempEchoo];
     }
-    //NSLog(@"echooArray: %@", echooArray);
+   
 
 }
 
