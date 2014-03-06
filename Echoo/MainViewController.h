@@ -10,6 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
+#include "Echoo.h"
 
 @interface MainViewController : UIViewController
     <CLLocationManagerDelegate, AVAudioPlayerDelegate, AVAudioRecorderDelegate>

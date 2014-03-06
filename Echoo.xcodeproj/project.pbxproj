@@ -27,6 +27,7 @@
 		84AD0A0518B40D0500CA0889 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84AD0A0418B40D0500CA0889 /* MainViewController.m */; };
 		84AD0A0718B4182C00CA0889 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AD0A0618B4182C00CA0889 /* CoreLocation.framework */; };
 		84AD0A0918B4184300CA0889 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84AD0A0818B4184300CA0889 /* AVFoundation.framework */; };
+		84C235B118C7F423007D6041 /* Echoo.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C235B018C7F423007D6041 /* Echoo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		84AD0A0418B40D0500CA0889 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		84AD0A0618B4182C00CA0889 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		84AD0A0818B4184300CA0889 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		84C235AF18C7F423007D6041 /* Echoo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Echoo.h; sourceTree = "<group>"; };
+		84C235B018C7F423007D6041 /* Echoo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Echoo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +147,8 @@
 				849F94A518AADB3A00028F52 /* KeychainItemWrapper.m */,
 				84AD0A0318B40D0500CA0889 /* MainViewController.h */,
 				84AD0A0418B40D0500CA0889 /* MainViewController.m */,
+				84C235AF18C7F423007D6041 /* Echoo.h */,
+				84C235B018C7F423007D6041 /* Echoo.m */,
 			);
 			path = Echoo;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C235B118C7F423007D6041 /* Echoo.m in Sources */,
 				849F94A618AADB3A00028F52 /* KeychainItemWrapper.m in Sources */,
 				849F947B18AACFAC00028F52 /* LoginViewController.m in Sources */,
 				849F947218AACFAC00028F52 /* AppDelegate.m in Sources */,
