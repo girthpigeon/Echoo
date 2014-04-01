@@ -38,14 +38,14 @@
 
     
     //fetch the user's nearness settings (for starters just make this constant
-    [self findEchoos:self];
+    NSMutableArray *echooArray = [self findEchoos];
     
     //if within range, return the audio
     
     //if not within range, return the next closest 3 within a max radius
 }
 
--(void)findEchoos:(id)sender {
+-(NSMutableArray*)findEchoos {
     //float distance = 1.6000000; //1 mile
     float distance = 5.0000000; //a little under 3 miles
     //float distance = 1609.344; //1000 miles for testing
@@ -97,8 +97,54 @@
         }
         [echooArray addObject:tempEchoo];
     }
-   
+    
+   //play audio automatically for the closest echoo.
 
+    NSLog(@"filepath: %@", closestEchoo.filepath);
+    [self playEchoo:closestEchoo];
+    
+    return echooArray;
+}
+
+- (void)playEchoo:(Echoo*) tempEchoo {
+    
+    AVPlayer *songPlayer = [[AVPlayer alloc]initWithURL:[NSURL URLWithString:tempEchoo.filepath]];
+
+    self.echooPlayer = songPlayer;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[self.echooPlayer currentItem]];
+    [self.echooPlayer addObserver:self forKeyPath:@"status" options:0 context:nil];
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+}
+
+-(void)updateProgress {
+    //NSLog(@"updating Progress: %ld", (long)self.echooPlayer.currentItem.status);
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == self.echooPlayer && [keyPath isEqualToString:@"status"]) {
+        if (self.echooPlayer.status == AVPlayerStatusFailed) {
+            NSLog(@"AVPlayer Failed");
+            
+        } else if (self.echooPlayer.status == AVPlayerStatusReadyToPlay) {
+            NSLog(@"AVPlayerStatusReadyToPlay");
+            [self.echooPlayer play];
+            
+            
+        } else if (self.echooPlayer.status == AVPlayerItemStatusUnknown) {
+            NSLog(@"AVPlayer Unknown");
+            
+        }
+    }
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification {
+    
+    NSLog(@"End of sound file");
+    
 }
 
 
@@ -117,7 +163,7 @@
     [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error: &error];
     [audioSession setActive:YES error: &error];
     
-    audioFileName = [NSString stringWithFormat: @"%@_%@", userid, date];
+    audioFileName = [NSString stringWithFormat: @"%@_%@.m4a", userid, date];
     
     NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     docsDir = [dirPaths objectAtIndex:0];

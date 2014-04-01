@@ -42,5 +42,5 @@
 }
 
 @property (strong, nonatomic) NSString *userid;
-
+@property (strong, nonatomic) AVPlayer *echooPlayer;
 @end
